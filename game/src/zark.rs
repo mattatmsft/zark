@@ -126,10 +126,10 @@ impl GameState {
                     match converted_action {
                         Actions::Left => self.player.location -= 1,
                         Actions::Right => self.player.location += 1,
-                        _ => println!("Matt's lazy and hasn't programmed any other actions yet."),
+                        _ => return Some(String::from("Matt's lazy and hasn't programmed any other actions yet.")),
                     };
                 } else {
-                    println!("nope, you can't do that.");
+                    return Some(String::from("nope, you can't do that."));
                 }
             },
             Commands::Attack => {
@@ -171,7 +171,7 @@ fn build_world() -> HashMap<i32, HashMap<i32, GameTile>> {
     };
 
     let two = GameTile {
-        display_message: String::from("As you enter the clearing, the world seems to get darker as the forbodding trees block out the sun.  To the left is a white house, and to the right is a dark cave."),
+        display_message: String::from("As you enter the clearing, the world seems to get darker as the foreboding trees block out the sun.  To the left is a white house, and to the right is a dark cave."),
         actions: vec![Actions::Right, Actions::Left],
         enemy: None,
         item: String::from("")
