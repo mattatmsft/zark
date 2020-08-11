@@ -30,7 +30,10 @@ fn main() {
         // take action
         // extra game over conditions here.  Like game won.  Or stuff
         let command = generate_command(&player_input);
-        game.take_action(command);
+        match game.take_action(command) {
+            Some(message) => print_output(message),
+            None => (),
+        }
 
         print_state(&game);
         println!("");

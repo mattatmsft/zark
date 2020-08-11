@@ -114,7 +114,7 @@ impl GameState {
         player_location
     }
 
-    pub fn take_action(&mut self, command: Command) {
+    pub fn take_action(&mut self, command: Command) -> Option<String> {
         println!("command: {} action: {}", command.command, command.action);
 
         let converted_command = command.get_command();
@@ -133,15 +133,22 @@ impl GameState {
                 }
             },
             Commands::Attack => {
-                // todo
+                match &self.get_location().enemy {
+                    Some(e) => {
+                        // todo
+                    },
+                    None => return Some(String::from("There is no enemy here to fight.")),
+                }
             },
             Commands::Quit => {
                 self.game_end = true;
             }
             _ => {
-                // todo
-            }
+                return Some(String::from("Command was not recognized or programmed yet."));
+            },
         }
+
+        None
     }
 }
 
