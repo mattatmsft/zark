@@ -115,6 +115,8 @@ impl GameState {
     }
 
     pub fn take_action(&mut self, command: Command) {
+        println!("command: {} action: {}", command.command, command.action);
+
         let converted_command = command.get_command();
         let converted_action = command.get_action();
 
@@ -133,6 +135,9 @@ impl GameState {
             Commands::Attack => {
                 // todo
             },
+            Commands::Quit => {
+                self.game_end = true;
+            }
             _ => {
                 // todo
             }

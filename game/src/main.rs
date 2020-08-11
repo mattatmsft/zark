@@ -1,5 +1,5 @@
 mod zark;
-use std::io::{self, Write};
+use std::io::{self, Read, Write};
 
 fn main() {
     print_output(String::from("Welcome to Zark, the world exploring game from MW."));
@@ -10,31 +10,27 @@ fn main() {
     println!("");
 
     // set up game
-    let mut player_input = String::new();
     let mut game = zark::GameState::new();
-    const QUIT_COMMAND: &str = "quit";
 
     while game.game_end != true {
         // game loop
         // write location
         print_output(game.get_location().display_message.to_string());
+        let mut player_input = String::new();
 
         // ask for instruction
         print_output(String::from("What would you like to do?"));
-        io::stdin().read_line(&mut player_input)
-            .expect("Error reading from the player");
-        
-        // remove the trailing \n
-        player_input.pop();
+        match io::stdin().read_line(&mut player_input) {
+            Ok(buffer) => println!("buffer read: {}", buffer),
+            Err(error) => println!("Error: {}", error),
+        };
+
+        println!("input: {}", player_input.trim());
 
         // take action
         // extra game over conditions here.  Like game won.  Or stuff
-        if player_input.eq(&QUIT_COMMAND)  {
-            game.game_end = true;
-        } else {
-            let command = generate_command(&player_input);
-            game.take_action(command);
-        }
+        let command = generate_command(&player_input);
+        game.take_action(command);
 
         print_state(&game);
         println!("");
